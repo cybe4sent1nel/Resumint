@@ -29,13 +29,13 @@ export async function POST(request: NextRequest) {
       period: 30,
     })
 
-    const secret = totp.secret
+    const secretValue = totp.secret.base32
     const qrCode = totp.toString()
 
     return NextResponse.json({
-      secret,
+      secret: secretValue,
       qrCode,
-      manualEntryKey: secret.slice(0, 4) + ' ' + secret.slice(4, 8) + ' ' + secret.slice(8, 12) + ' ' + secret.slice(12),
+      manualEntryKey: secretValue.slice(0, 4) + ' ' + secretValue.slice(4, 8) + ' ' + secretValue.slice(8, 12) + ' ' + secretValue.slice(12),
     })
   } catch (error) {
     console.error('2FA setup error:', error)
@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest) {
       secret,
     })
 
-    const isValid = totp.validate({ code, window: 1 })
+    const isValid = totp.validate({ token: code, window: 1 })
 
     if (!isValid) {
       return NextResponse.json({ error: 'Invalid verification code' }, { status: 400 })

@@ -107,7 +107,7 @@ export default function AdminUsersPage() {
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="text-sm px-2 py-1 rounded {
+                        <span className={`text-sm px-2 py-1 rounded ${
                           user.emailVerified 
                             ? 'bg-green-100 text-green-700'
                             : 'bg-yellow-100 text-yellow-700'

@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       secret: user.twoFASecret,
     })
 
-    const isValid = totp.validate({ code, window: 1 })
+    const isValid = totp.validate({ token: code, window: 1 })
 
     if (!isValid) {
       return NextResponse.json({ error: 'Invalid verification code' }, { status: 400 })

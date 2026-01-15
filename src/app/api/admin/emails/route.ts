@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
     
-    if (!user || !hasAdminRole(user)) {
+    if (!user || !(await hasAdminRole(user.id))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
