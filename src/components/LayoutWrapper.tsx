@@ -5,8 +5,13 @@ import { Header } from './header'
 import { ReactNode } from 'react'
 
 export function LayoutWrapper({ children }: { children: ReactNode }) {
-  const pathname = usePathname()
-  const isAdminPage = pathname?.startsWith('/admin')
+  let pathname = ''
+  try {
+    pathname = usePathname() || ''
+  } catch {
+    pathname = ''
+  }
+  const isAdminPage = pathname.startsWith('/admin')
 
   return (
     <>

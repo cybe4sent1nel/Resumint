@@ -4,8 +4,13 @@ import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export function FooterWrapper({ children }: { children: ReactNode }) {
-  const pathname = usePathname()
-  const isAdminPage = pathname?.startsWith('/admin')
+  let pathname = ''
+  try {
+    pathname = usePathname() || ''
+  } catch {
+    pathname = ''
+  }
+  const isAdminPage = pathname.startsWith('/admin')
 
   if (isAdminPage) {
     return <>{children}</>
