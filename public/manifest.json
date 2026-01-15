@@ -1,0 +1,16 @@
+{
+  "name": "Resumint - AI Resume Builder",
+  "short_name": "Resumint",
+  "description": "Create stunning AI-powered resumes and portfolios",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9333ea",
+  "icons": [
+    {
+      "src": "/resumint.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

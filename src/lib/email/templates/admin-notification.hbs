@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Notification</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 2px solid #dc2626;
+    }
+    .header {
+      background: #1a1a1a;
+      padding: 20px;
+      color: #10b981;
+      font-family: monospace;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .content {
+      padding: 30px;
+      background: #fafafa;
+    }
+    .alert {
+      background: #fee2e2;
+      border-left: 4px solid #dc2626;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: monospace;
+    }
+    .data-box {
+      background: #1a1a1a;
+      color: #10b981;
+      padding: 20px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+    .footer {
+      padding: 15px 30px;
+      background: #1a1a1a;
+      color: #9ca3af;
+      font-size: 12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>[ADMIN ALERT] {{subject}}</h1>
+      <p style="margin: 5px 0 0 0; font-size: 12px;">Timestamp: {{timestamp}}</p>
+    </div>
+    
+    <div class="content">
+      <div class="alert">
+        <strong>MESSAGE:</strong><br>
+        {{message}}
+      </div>
+      
+      {{#if data}}
+      <h3 style="margin-top: 20px;">Data Payload:</h3>
+      <div class="data-box">
+        <pre>{{json data}}</pre>
+      </div>
+      {{/if}}
+      
+      <p style="margin-top: 20px; font-size: 13px; color: #6b7280;">
+        This is an automated notification from the {{appName}} admin system.
+      </p>
+    </div>
+    
+    <div class="footer">
+      <p style="margin: 0;">{{appName}} Admin System | {{currentYear}}</p>
+    </div>
+  </div>
+</body>
+</html>

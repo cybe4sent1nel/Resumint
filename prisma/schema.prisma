@@ -1,0 +1,215 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
+  email             String              @unique
+  password          String
+  name              String?
+  credits           Int                 @default(50)
+  plan              Plan                @default(FREE)
+  adminRole         AdminRole           @default(NONE)
+  emailVerified     Boolean             @default(false)
+  verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  failedLoginAttempts Int               @default(0)
+  lockedUntil       DateTime?
+  lastLoginAt       DateTime?
+  lastLoginIp       String?
+  twoFAEnabled      Boolean             @default(false)
+  twoFASecret       String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  resumes           Resume[]
+  portfolios        Portfolio[]
+  sessions          Session[]
+  creditTransactions CreditTransaction[]
+  adminActions      AdminAction[]
+  feedback          Feedback[]
+}
+
+model Session {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Resume {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  title       String
+  templateId  String
+  data        Json
+  pdfUrl      String?
+  docUrl      String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Portfolio {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  title       String
+  templateId  String?
+  customDomain String?
+  slug        String   @unique
+  data        Json
+  isPublic    Boolean  @default(true)
+  aiGenerated Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Template {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  category    TemplateCategory
+  thumbnail   String
+  data        Json
+  isPremium   Boolean      @default(false)
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model CreditTransaction {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String            @db.ObjectId
+  amount      Int
+  type        TransactionType
+  description String
+  orderId     String?
+  createdAt   DateTime          @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AdminAction {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  action      String
+  targetId    String?
+  targetType  String?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailQueue {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  to          String
+  subject     String
+  template    String
+  data        Json
+  status      EmailStatus  @default(PENDING)
+  scheduledFor DateTime?
+  sentAt      DateTime?
+  error       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model AboutContent {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  vision      String
+  howItWorks  Json
+  features    Json
+  faqs        Json
+  developer   Json
+  updatedBy   String?
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model SubscriptionPricing {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  plan            Plan     @unique
+  name            String
+  monthlyPrice    Float
+  yearlyPrice     Float
+  credits         Int
+  features        Json
+  isActive        Boolean  @default(true)
+  updatedBy       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ApiPricing {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  tier            String   @unique
+  name            String
+  monthlyPrice    Float
+  yearlyPrice     Float
+  requestsPerMonth Int
+  features        Json
+  isActive        Boolean  @default(true)
+  updatedBy       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum Plan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum AdminRole {
+  NONE
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum TemplateCategory {
+  RESUME
+  PORTFOLIO
+}
+
+enum TransactionType {
+  PURCHASE
+  REWARD
+  USAGE
+  REFUND
+}
+
+enum EmailStatus {
+   PENDING
+   SENT
+   FAILED
+}
+
+model Feedback {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  rating      Int       // 1-5 stars
+  comment     String
+  isDisplayed Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

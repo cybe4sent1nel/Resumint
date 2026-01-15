@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Documentation - ignore all .md and .txt files except README.md
+*.md
+!README.md
+*.txt
+!.gitignore

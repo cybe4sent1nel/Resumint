@@ -1,0 +1,43 @@
+/* Global Gradient Overrides - White to Lemon Green Theme */
+/* BACKGROUND GRADIENTS ONLY - Do not override text gradients */
+
+/* Hero and Page Backgrounds */
+[class*="bg-gradient-to-b"][class*="from-white"][class*="via-purple-50"] {
+  background: linear-gradient(to bottom, white, #F1F8E9, #C5E1A5);
+}
+
+[class*="bg-gradient-to-br"][class*="from-purple-50"][class*="via-blue-50"][class*="to-pink-50"],
+[class*="bg-gradient-to-br"][class*="from-purple-50"][class*="via-blue-50"] {
+  background: linear-gradient(to bottom right, white, #F1F8E9, #C5E1A5);
+}
+
+/* Icon backgrounds - NOT text gradients */
+.bg-gradient-to-br.from-purple-500.to-blue-500:not(.bg-clip-text) {
+  background: linear-gradient(to bottom right, #9CCC65, #7CB342);
+}
+
+.bg-gradient-to-br.from-blue-500.to-cyan-500:not(.bg-clip-text) {
+  background: linear-gradient(to bottom right, #9CCC65, #8BC34A);
+}
+
+.bg-gradient-to-br.from-indigo-500.to-purple-500:not(.bg-clip-text) {
+  background: linear-gradient(to bottom right, #9CCC65, #8BC34A);
+}
+
+.bg-gradient-to-br.from-purple-600.to-blue-600:not(.bg-clip-text) {
+  background: linear-gradient(to bottom right, #9CCC65, #7CB342);
+}
+
+/* Section backgrounds */
+[class*="bg-gradient-to-br"][class*="from-purple-100"][class*="to-blue-100"] {
+  background: linear-gradient(to bottom right, #F1F8E9, #C5E1A5);
+}
+
+[class*="bg-gradient-to-br"][class*="from-purple-50"][class*="to-blue-50"] {
+  background: linear-gradient(to bottom right, #F1F8E9, #C5E1A5);
+}
+
+/* Feature cards */
+.bg-gradient-to-br.from-lemon-500.to-lime-600:not(.bg-clip-text) {
+  background: linear-gradient(135deg, #9CCC65 0%, #7CB342 100%);
+}
